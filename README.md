@@ -1,2 +1,2 @@
 # LeetCode_Solutions
-Uploading Leet Code solutions for the problems that I solve.
+Storing m LeetCode soulutions in this repository

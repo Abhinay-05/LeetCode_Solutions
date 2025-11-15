@@ -14,7 +14,11 @@
  * }
  */
 class Solution {
-    int max = Integer.MIN_VALUE;
+    // In this question
+    // We do not have to find a Path
+    // We can also find a subTree
+    // Even one node can also be returnde
+    int max = -1001;
     public int maxPathSum(TreeNode root) {
         pathSum(root);
         return max;

@@ -14,7 +14,7 @@
  * }
  */
 class Solution {
-    int max = -1001;
+    int max = Integer.MIN_VALUE;
     public int maxPathSum(TreeNode root) {
         pathSum(root);
         return max;

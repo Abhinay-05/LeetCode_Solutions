@@ -30,23 +30,25 @@ Constraints:
 1 <= prices[i] <= 1000
 */
 
-// using stack
+// using Monotonic stack
 class Solution {
-    public int[] finalPrices(int[] prices) {
-        Stack<Integer> stack = new Stack<>();
-        int len = prices.length;
+public:
+    vector<int> finalPrices(vector<int>& prices) {
+        stack<int> st;
+        int len = prices.size();
 
-        for(int i = len - 1 ; i >= 0 ; i--){
-            int curr = prices[i];
-            while(!stack.isEmpty() && stack.peek() > curr){
-                stack.pop();
+        for(int i = len-1 ; i >= 0 ; i--){
+            int curr = prices.at(i);
+
+            while(!st.empty() && st.top() > curr){
+                st.pop();
             }
 
-            if(!stack.isEmpty()){
-                prices[i] = curr - stack.peek();
+            if(!st.empty()){
+                prices[i] = curr - st.top();
             }
-            stack.push(curr);
+            st.push(curr);
         }
         return prices;
     }
-}
+};

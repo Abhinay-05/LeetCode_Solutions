@@ -30,16 +30,22 @@ Constraints:
 1 <= prices[i] <= 1000
 */
 
+// using stack
 class Solution {
     public int[] finalPrices(int[] prices) {
+        Stack<Integer> stack = new Stack<>();
         int len = prices.length;
-        for(int i = 0 ; i < len ; i++){
-            for(int j = i+1 ; j < len ; j++){
-                if(prices[j] <= prices[i]){
-                    prices[i] = prices[i] - prices[j];
-                    break;
-                }
+
+        for(int i = len - 1 ; i >= 0 ; i--){
+            int curr = prices[i];
+            while(!stack.isEmpty() && stack.peek() > curr){
+                stack.pop();
             }
+
+            if(!stack.isEmpty()){
+                prices[i] = curr - stack.peek();
+            }
+            stack.push(curr);
         }
         return prices;
     }

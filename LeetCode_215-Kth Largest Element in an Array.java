@@ -18,13 +18,66 @@
 
 class Solution {
 public:
-    int findKthLargest(vector<int>& nums, int k) {
-        multiset<int> set;
-        for(int el : nums){
-            set.insert(el);
-        }
-        vector<int> ans(set.begin(), set.end());
+    void rearrange(vector<int>& v) {
+        int size = v.size();
+        int curr = size - 1;
+        // upheap
+        while (curr > 0) {
+            int parent = (curr - 1) / 2;
 
-        return ans.at(ans.size()-k);
+            if (v[parent] >= v[curr]) {
+                break;
+            } else {
+                swap(v[parent], v[curr]);
+                curr = parent;
+            }
+        }
+    }
+
+    int removal(vector<int>& v) {
+        int ans = v.at(0);
+
+        v[0] = v.at(v.size() - 1);
+        v.pop_back();
+        int len = v.size();
+
+        int i = 0;
+        // downHeap
+        while (i < len) {
+            int min = i;
+            int left = 2 * i + 1;
+            int right = 2 * (i + 1);
+
+            if (left < len && v[left] > v[min]) {
+                min = left;
+            }
+
+            if (right < len && v[right] > v[min]) {
+                min = right;
+            }
+
+            if (min == i) {
+                break;
+            } else {
+                swap(v[min], v[i]);
+                i = min;
+            }
+        }
+
+        return ans;
+    }
+    
+    int findKthLargest(vector<int>& nums, int k) {
+        // using Heap
+        vector<int> ans;
+        for (int el : nums) {
+            ans.emplace_back(el);
+            rearrange(ans);
+        }
+        int returnable = 0;
+        for (int i = 0; i < k; i++) {
+            returnable = removal(ans);
+        }
+        return returnable;
     }
 };

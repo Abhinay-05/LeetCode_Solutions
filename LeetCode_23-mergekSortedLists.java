@@ -45,10 +45,13 @@ The sum of lists[i].length will not exceed 104.
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         //create a MIN Heap
-        List<Integer> list = new ArrayList<>();
+        //instead of creating a heap of (int) values
+        //just store the LinkedListNode in the heap
+        // this will save up memory
+        List<ListNode> list = new ArrayList<>();
         for(ListNode head : lists){
             while(head != null){
-                list.add(head.val);
+                list.add(head);
                 rearrange(list);
                 head = head.next;
             }
@@ -56,25 +59,26 @@ class Solution {
         ListNode head = new ListNode();
         ListNode temp = head;
         while(!list.isEmpty()){
-            temp.next = new ListNode(remove(list));
+            temp.next = remove(list);
             temp = temp.next;
         }
+        temp.next = null;
         return head.next;
     }
 
-    private void swap(List<Integer> list, int x, int y){
-        int temp = list.get(x);
+    private void swap(List<ListNode> list, int x, int y){
+        ListNode temp = list.get(x);
         list.set(x, list.get(y));
         list.set(y, temp);
     }
 
-    private void rearrange(List<Integer> list){
+    private void rearrange(List<ListNode> list){
         int i = list.size() - 1;
         // upHeap
         while(i > 0){
             int p = (i-1)/2;
             
-            if(list.get(p) > list.get(i)){
+            if(list.get(p).val > list.get(i).val){
                 swap(list, p, i);
                 i = p;
             }
@@ -84,10 +88,10 @@ class Solution {
         }
     }
 
-    private int remove(List<Integer> list){
-        int ans = list.get(0);
+    private ListNode remove(List<ListNode> list){
+        ListNode ans = list.get(0);
 
-        int last = list.remove(list.size()-1);
+        ListNode last = list.remove(list.size()-1);
         if(!list.isEmpty()){
             list.set(0, last);
         }
@@ -99,11 +103,11 @@ class Solution {
             int left = 2*i + 1;
             int right = 2*(i+1);
 
-            if(left < len && list.get(min) > list.get(left)){
+            if(left < len && list.get(min).val > list.get(left).val){
                 min = left;
             }
 
-            if(right < len && list.get(min) > list.get(right)){
+            if(right < len && list.get(min).val > list.get(right).val){
                 min = right;
             }
 

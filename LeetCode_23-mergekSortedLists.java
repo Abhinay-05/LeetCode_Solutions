@@ -44,22 +44,76 @@ The sum of lists[i].length will not exceed 104.
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
+        //create a MIN Heap
         List<Integer> list = new ArrayList<>();
         for(ListNode head : lists){
             while(head != null){
                 list.add(head.val);
+                rearrange(list);
                 head = head.next;
             }
         }
-        Collections.sort(list);
-
         ListNode head = new ListNode();
         ListNode temp = head;
-        for(Integer el : list){
-            ListNode curr = new ListNode(el);
-            temp.next = curr;
+        while(!list.isEmpty()){
+            temp.next = new ListNode(remove(list));
             temp = temp.next;
         }
         return head.next;
+    }
+
+    private void swap(List<Integer> list, int x, int y){
+        int temp = list.get(x);
+        list.set(x, list.get(y));
+        list.set(y, temp);
+    }
+
+    private void rearrange(List<Integer> list){
+        int i = list.size() - 1;
+        // upHeap
+        while(i > 0){
+            int p = (i-1)/2;
+            
+            if(list.get(p) > list.get(i)){
+                swap(list, p, i);
+                i = p;
+            }
+            else{
+                break;
+            }
+        }
+    }
+
+    private int remove(List<Integer> list){
+        int ans = list.get(0);
+
+        int last = list.remove(list.size()-1);
+        if(!list.isEmpty()){
+            list.set(0, last);
+        }
+        int len = list.size();
+        int i = 0;
+        // downHeap
+        while(i < len){
+            int min = i;
+            int left = 2*i + 1;
+            int right = 2*(i+1);
+
+            if(left < len && list.get(min) > list.get(left)){
+                min = left;
+            }
+
+            if(right < len && list.get(min) > list.get(right)){
+                min = right;
+            }
+
+            if(min == i){
+                break;
+            }
+            //else
+            swap(list, min, i);
+            i = min;
+        }
+        return ans;
     }
 }

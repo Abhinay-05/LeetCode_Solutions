@@ -28,6 +28,8 @@ The number of nodes in the linked list is in the range [0, 104].
  * }
  */
 class Solution {
+ //TC:O(N) -> O(N) + O(N/2)
+ //SC: O(1)
     public ListNode oddEvenList(ListNode head) {
         if(head == null || head.next == null || head.next.next == null){
             return head;

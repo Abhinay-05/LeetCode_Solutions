@@ -29,31 +29,29 @@ The number of nodes in the linked list is in the range [0, 104].
  */
 class Solution {
     public ListNode oddEvenList(ListNode head) {
-        if(head == null || head.next == null){
+        if(head == null || head.next == null || head.next.next == null){
             return head;
         }
-        ListNode dummy = new ListNode(-1);
-        ListNode temp = dummy;
-        ListNode odd = head;
-        ListNode even = head.next;
-
-        while(odd != null){
-            temp.next = new ListNode(odd.val);
-            temp = temp.next;
-            if(odd.next == null){
-                break;
-            }
-            odd = odd.next.next;
+        int n = 1;
+        ListNode last = head;
+        //count number of nodes
+        //get to the last node of the LL
+        while(last.next != null){//O(N)
+            last = last.next;
+            n++;
         }
-
-        while(even != null){
-            temp.next = new ListNode(even.val);
+        n = n/2;
+        ListNode temp = head;
+        for(int i = 0 ; i < n ; i++){//O(N/2)
+        //send next node to the tail and update tail to tail.next
+        //join current.next -> current.next.next
+        //current = current.next
+            last.next = temp.next;
+            last = last.next;
+            temp.next = temp.next.next;
             temp = temp.next;
-            if(even.next == null){
-                break;
-            }
-            even = even.next.next;
         }
-        return dummy.next;
+        last.next = null;
+        return head;
     }
 }

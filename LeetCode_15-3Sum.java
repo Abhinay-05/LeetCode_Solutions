@@ -29,7 +29,7 @@ Constraints:
 */
 
 class Solution {
-    //Two pointer
+    //Two pointer approach
     // TC: O(N*N)
     // SC: O(1)
     public List<List<Integer>> threeSum(int[] nums) {
